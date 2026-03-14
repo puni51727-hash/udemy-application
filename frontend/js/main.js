@@ -1,3 +1,7 @@
+// Change this to your live Render API URL once deployed:
+// Example: const API_BASE_URL = 'https://skillnest-backend.onrender.com';
+const API_BASE_URL = 'http://localhost:5000';
+
 function isAuthenticated() {
     return localStorage.getItem('token') !== null;
 }
@@ -94,7 +98,7 @@ function initChatbot() {
         addChatMessage('Typing...', 'bot', typingId);
 
         try {
-            const res = await fetch('http://localhost:5000/api/chat', {
+            const res = await fetch(`${API_BASE_URL}/api/chat`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: msg })

@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let allCourses = [];
     
     try {
-        const res = await fetch('http://localhost:5000/api/courses');
+        const res = await fetch(`${API_BASE_URL}/api/courses`);
         allCourses = await res.json();
     } catch (error) {
         courseList.innerHTML = '<p>Error loading courses.</p>';
@@ -90,7 +90,7 @@ async function buyCourse(courseId) {
     const token = localStorage.getItem('token');
     
     try {
-        const res = await fetch('http://localhost:5000/api/enrollments', {
+        const res = await fetch(`${API_BASE_URL}/api/enrollments`, {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json',
@@ -102,7 +102,7 @@ async function buyCourse(courseId) {
         const data = await res.json();
         
         if (res.ok) {
-            const courseRes = await fetch('http://localhost:5000/api/courses');
+            const courseRes = await fetch(`${API_BASE_URL}/api/courses`);
             const courses = await courseRes.json();
             const course = courses.find(c => c._id === courseId);
             
