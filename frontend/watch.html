@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watch Course - SkillNest</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            background: #000;
+            border-radius: 12px;
+            margin-top: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-btn:hover {
+            color: var(--primary-color);
+        }
+        .dashboard-header {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+            SkillNest
+        </a>
+        <ul class="nav-links" id="nav-links"></ul>
+    </nav>
+
+    <div class="container" style="min-height: 80vh; padding-top: 2rem;">
+        <a href="dashboard.html" class="back-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            Back to Dashboard
+        </a>
+        
+        <div class="dashboard-header">
+            <h2 id="course-title">Loading course...</h2>
+        </div>
+        
+        <div class="video-container" id="video-container">
+            <!-- iframe will be inserted here -->
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 SkillNest. All rights reserved.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!isAuthenticated()) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const videoUrl = urlParams.get('url');
+            const courseTitle = urlParams.get('title') || 'Course Video';
+            
+            document.getElementById('course-title').textContent = courseTitle;
+
+            if (videoUrl) {
+                // Convert watch?v= format to embed format
+                let embedUrl = videoUrl;
+                if (videoUrl.includes('watch?v=')) {
+                    const videoId = videoUrl.split('watch?v=')[1].split('&')[0];
+                    // Removed autoplay to let the user play it, avoiding browser blocks
+                    embedUrl = 'https://www.youtube.com/embed/' + videoId + '?rel=0';
+                }
+
+                document.getElementById('video-container').innerHTML = `
+                    <iframe src="${embedUrl}" title="${courseTitle}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                `;
+            } else {
+                document.getElementById('video-container').innerHTML = `
+                    <div style="padding: 3rem; text-align: center; color: white;">Video link not found.</div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

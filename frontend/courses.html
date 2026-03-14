@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Courses - SkillNest</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+            SkillNest
+        </a>
+        <div class="search-bar">
+            <input type="text" placeholder="Search for anything...">
+        </div>
+        <ul class="nav-links" id="nav-links"></ul>
+    </nav>
+
+    <div class="container" style="min-height: 80vh;">
+        <h2 class="section-title">Explore Courses</h2>
+        <div id="alert-box" class="alert"></div>
+        <div id="course-list" class="course-grid" style="margin-top: 3rem;">
+            <p>Loading courses...</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 SkillNest. All rights reserved.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/courses.js"></script>
+</body>
+</html>

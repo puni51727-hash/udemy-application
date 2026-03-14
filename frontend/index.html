@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillNest - Learn cutting-edge skills</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+            SkillNest
+        </a>
+        <div class="search-bar">
+            <input type="text" placeholder="Search for anything...">
+        </div>
+        <ul class="nav-links" id="nav-links">
+            <!-- Populated by main.js -->
+        </ul>
+    </nav>
+
+    <div class="hero">
+        <div class="hero-text">
+            <h1>Unlock Your Potential with SkillNest</h1>
+            <p>Access thousands of high-quality courses. From programming to design, learn whatever you want, whenever you want. Your journey starts here.</p>
+            <a href="courses.html" class="btn" style="font-size: 1.1rem; padding: 1rem 2.5rem;">Explore Courses</a>
+        </div>
+        <div class="hero-image">
+            <img src="images/hero.png" alt="Student learning online">
+        </div>
+    </div>
+
+    <div class="container">
+        <h2 class="section-title">Students are viewing</h2>
+        <div id="featured-courses" class="course-grid" style="margin-top: 3rem;">
+            <!-- Loading courses... -->
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 SkillNest. All rights reserved. A premium learning platform.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const res = await fetch('http://localhost:5000/api/courses');
+                const courses = await res.json();
+                const container = document.getElementById('featured-courses');
+                container.innerHTML = '';
+                
+                if (courses.length === 0) {
+                    container.innerHTML = '<p>No courses available right now.</p>';
+                    return;
+                }
+
+                const images = [
+                    'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500&q=80',
+                    'https://images.unsplash.com/photo-1526379879527-8559cc2ac494?w=500&q=80',
+                    'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=500&q=80',
+                    'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&q=80'
+                ];
+
+                courses.slice(0, 4).forEach((course, index) => {
+                    const rating = (4 + Math.random()).toFixed(1);
+                    const reviews = Math.floor(Math.random() * 5000) + 100;
+                    const imgUrl = images[index % images.length];
+
+                    const card = document.createElement('div');
+                    card.className = 'course-card';
+                    card.onclick = () => window.location.href = 'courses.html';
+                    card.innerHTML = `
+                        <img src="${imgUrl}" class="course-image" alt="${course.title}">
+                        <div class="course-card-content">
+                            <h3>${course.title}</h3>
+                            <div class="course-instructor">${course.instructor}</div>
+                            <div class="course-rating">
+                                4.7 ⭐⭐⭐⭐⭐ <span class="reviews">(${reviews.toLocaleString()})</span>
+                            </div>
+                            <div class="course-footer">
+                                <div class="course-price">$${course.price}</div>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (error) {
+                console.error('Error fetching courses:', error);
+                document.getElementById('featured-courses').innerHTML = '<p>Error loading courses.</p>';
+            }
+        });
+    </script>
+</body>
+</html>
